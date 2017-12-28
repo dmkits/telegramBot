@@ -36,3 +36,38 @@ Games
 
 
 500967915:AAGsOgZTHzh5ny69hMe21RALQTJgACqZBVQ
+
+
+
+{ message_id: 265,
+  from:
+   { id: 491124507,
+     is_bot: false,
+     first_name: 'Iana',
+     last_name: 'Gez',
+     language_code: 'en' },
+  chat:
+   { id: 491124507,
+     first_name: 'Iana',
+     last_name: 'Gez',
+     type: 'private' },
+  date: 1514469011,
+  reply_to_message:
+   { message_id: 264,
+     from:
+      { id: 500967915,
+        is_bot: true,
+        first_name: 'BotToPlay',
+        username: 'iana_first_test_bot' },
+     chat:
+      { id: 491124507,
+        first_name: 'Iana',
+        last_name: 'Gez',
+        type: 'private' },
+     date: 1514468999,
+     text: 'Hello' },
+  contact:
+   { phone_number: '380637868770',
+     first_name: 'Iana',
+     last_name: 'Gez',
+     user_id: 491124507 } }

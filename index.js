@@ -17,11 +17,18 @@ var picSrcs={
     [KB.cat]:['cat1.jpg','cat2.jpg','cat3.jpg'],
     [KB.car]:['car1.jpg','car2.jpg','car3.jpg']
 };
-bot.onText(/\/start/, function(msg){
+bot.onText(/\/start/, function(msg, resp){ console.log("resp=",resp);
     greetClient(msg);
+   // bot.sendMessage(msg.chat.id, "Hello", {
+   //     reply_markup:{
+   //         keyboard:[
+   //             [{text:"Number","request_contact":true},{text:"Location","request_location":true} ]
+   //         ]
+   //     }
+   // });
 });
 
-bot.on('message', function(msg){ console.log("msg=",msg);
+bot.on('message', function(msg){ console.log("msg 31=",msg);
     switch (msg.text){
         case KB.picture:
             sendScreenPicture(msg.chat.id);
