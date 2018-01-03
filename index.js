@@ -3,7 +3,7 @@ var TelegramBot = require('node-telegram-bot-api');
 var fs=require('fs');
 var _=require('lodash');
 var schedule = require('node-schedule');
-var clients = require('./clients');      console.log("clients=",clients);
+//var clients = require('./clients');      console.log("clients=",clients);
 var path= require('path');
 var TOKEN ='500967915:AAGsOgZTHzh5ny69hMe21RALQTJgACqZBVQ';
 
@@ -22,40 +22,56 @@ bot.onText(/\/start/, function(msg, resp) {                     console.log("msg
                 [{text: "Register", "request_contact": true}]
             ]
         }
-
     });
 });
 
-bot.on('message',(msg)=>{                                                                  // console.log("msg 31=",msg);   //380637868770
-    if(!msg.contact&&msg.contact.phone_number) return;
+
+bot.on('polling_error', (error) => {
+    console.log("polling_error=",error);  // => 'EFATAL'
+});
+
+
+bot.on('contact',(msg)=>{                   console.log("msg 31=",msg);   //380637868770
+    if(!msg.contact || !msg.contact.phone_number) return;
     var phoneNumber=msg.contact.phone_number; console.log("phoneNumber=",phoneNumber);
-    for(var i in clients){
+    var clients= JSON.parse(fs.readFileSync(path.join(__dirname, './clients.json')));           console.log("clients=",clients);
+    for(var i=0; i<clients.length; i++){                                                         console.log("clients[i]=",i,clients[i]);
         if(clients[i].phone==phoneNumber){
             var newClient={
                 chatId:msg.chat.id,
                 phoneNumber:phoneNumber
             };
-            fs.writeFile(JSON.stringify(newClient),'a',path.join(__dirname, './registeredClients.json'),function(err){
-                if(err){
-                    console.log("err=",err);
-                    return;
-                }
-                bot.sendMessage(msg.chat.id, "Congratulations!<br> You have registered successfully!");
-                var j=schedule.scheduleJob('/20 * * * * *', function(){
-                    console.log("Schedule msg to console");
-                    var registeredClients=JSON.parse(fs.readFile(path.join(__dirname, './registeredClients.json')),
-                        function(err){
-                            if(err){
-                                console.log("err=",err);
-                                return;
-                            }
-                            if(registeredClients.length>0){
-                                for(var i in registeredClients)
-                                    bot.sendMessage(registeredClients[i]["chatId"], "Schedule msg. Every 20 sec.");
-                            }
-                        });
-                });
-            })
+          //  var jsonTest=JSON.parse('[]');   console.log("jsonTest=",jsonTest);
+            try {
+                var clientArr = JSON.parse(fs.readFileSync(path.join(__dirname, './registeredClients.json')));
+                console.log("clientArr=", clientArr);
+            }catch(e){
+                console.log("ERROR=",e);
+            }
+            clientArr.push(newClient);
+
+            try{
+            fs.writeFileSync(path.join(__dirname, './registeredClients.json'),JSON.stringify(clientArr));
+            }catch(e){
+                console.log("writeFileERROR=",e);
+            }
+
+          //  bot.sendMessage(msg.chat.id, "Congratulations!\n You have registered successfully!");
+
+            var j=schedule.scheduleJob('/20 * * * * *', function(){
+                console.log("Schedule msg to console");
+                var registeredClients=JSON.parse(fs.readFile(path.join(__dirname, './registeredClients.json')),
+                    function(err){
+                        if(err){
+                            console.log("err=",err);
+                            return;
+                        }
+                        if(registeredClients.length>0){
+                            for(var i in registeredClients)
+                                bot.sendMessage(registeredClients[i]["chatId"], "Schedule msg. Every 20 sec.");
+                        }
+                    });
+            });
         }
     }
 });
