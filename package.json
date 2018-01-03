@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "fs": "0.0.1-security",
     "lodash": "^4.17.4",
     "node-schedule": "^1.2.5",
-    "node-telegram-bot-api": "^0.30.0"
+    "node-telegram-bot-api": "^0.30.0",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^1.14.3"
