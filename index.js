@@ -2,7 +2,7 @@ var TelegramBot = require('node-telegram-bot-api');
 var fs=require('fs');
 var _=require('lodash');
 var schedule = require('node-schedule');
-var clients = require('./clients');      console.log("clients=",clients);
+var clients = require('./clients');                                                             console.log("clients=",clients);
 var TOKEN ='500967915:AAGsOgZTHzh5ny69hMe21RALQTJgACqZBVQ';
 
 
@@ -19,6 +19,7 @@ var KB={
     car:"Машина",
     back:"Назад"
 };
+
 var picSrcs={
     [KB.cat]:['cat1.jpg','cat2.jpg','cat3.jpg'],
     [KB.car]:['car1.jpg','car2.jpg','car3.jpg']
@@ -59,9 +60,7 @@ bot.onText(/\/start/, function(msg, resp) {
 //    bot.sendMessage('491124507', "Schedule msg");
 //});
 
-
-
-bot.on('message', function(msg){ console.log("msg 31=",msg);
+bot.on('message', function(msg){                                                             console.log("msg 31=",msg);
     switch (msg.text){
         case KB.picture:
             sendScreenPicture(msg.chat.id);
